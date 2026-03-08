@@ -1,9 +1,13 @@
 //jshint esversion:6
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import bodyParser from "body-parser";
 import ejs from "ejs";
 import mongoose, { Model } from "mongoose";
-import encrypt from "mongoose-encryption";
+
+// Mngoose encyption not works because it does not compatible with nodeV22 we have to use bcrypt
+// import encrypt from "mongoose-encryption";
 // import flash from "connect-flash";
 
 mongoose.connect("mongodb://localhost:27017/userDBRohit");
@@ -13,9 +17,11 @@ const userSchema = new mongoose.Schema({
   pass: String,
 });
 
-const secret = "Thisismyscretekey.";
+console.log(process.env.SECRET_KEY);
 
-userSchema.plugin(encrypt, { secret: secret, encryptedFields: ["pass"] });
+// const secret = "Thisismyscretekey.";
+
+// userSchema.plugin(encrypt, { secret: secret, encryptedFields: ["pass"] });
 
 const User = mongoose.model("User", userSchema);
 
